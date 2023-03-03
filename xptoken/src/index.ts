@@ -65,8 +65,8 @@ bot.command("burn", async ctx => checkOwnership(ctx, async () => {
         ctx.reply(error)
     }
 }))
-// Listen for the /balanceOf command
-bot.command("balanceOf", async ctx => {
+// Listen for the /balance command
+bot.command("balance", async ctx => {
     try {
         const address = ctx.match
         const balanceOf = await contract.balanceOf(address)
@@ -77,8 +77,8 @@ bot.command("balanceOf", async ctx => {
     }
 
 })
-// Listen for the /totalSupply command
-bot.command("totalSupply", async ctx => {
+// Listen for the /supply command
+bot.command("supply", async ctx => {
     try {
         const totalSupply = await contract.totalSupply()
         const text = ethers.utils.formatEther(totalSupply)
@@ -88,5 +88,19 @@ bot.command("totalSupply", async ctx => {
     }
 })
 
-// Start the bot
-bot.start()
+
+async function main() {
+
+    await bot.api.setMyCommands([
+        { command: "mint", description: "Mints a number of tokens to an address. /mint address amount [only group creator]" },
+        { command: "burn", description: "Burns a number of tokens belonging to an address. /burn address amount [only group creator]" },
+        { command: "balance", description: "Get the address balance, /balance address" },
+        { command: "supply", description: "Get the total supply" },
+    ]);
+
+    // Start the bot
+    bot.start()
+
+}
+
+main()
